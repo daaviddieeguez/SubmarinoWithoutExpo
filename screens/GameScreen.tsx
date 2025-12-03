@@ -6,11 +6,11 @@ import { Casilla } from '../entities/tablero/Casilla';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GameScreen = () => {
-  const [haGanado, setHasGanado] = useState<boolean>(false);
   const size = useSize(state => state.size);
   const [tablero] = useState<Tablero>(new Tablero());
   const [mapa, setMapa] = useState<Casilla[]>([]);
-  const [shoot, setShoot] = useState<{ x: number; y: number }>();
+  const [shoot, setShoot] = useState<{ x: number; y: number }>({x: 0, y: 0});
+  const [mensaje, setMensaje] = useState<string>('¡A la espera!');
 
   useEffect(() => {
     tablero.init({ size: size, trace: 3 });
@@ -18,13 +18,31 @@ const GameScreen = () => {
   }, [size, tablero]);
 
   const disparar = (x: number, y: number) => {
-    const tocado = tablero.dispara(x, y);
-    setHasGanado(tocado);
+    tablero.dispara(x, y);
     setMapa(tablero.mapa);
     setShoot({ x, y });
-    console.log(`Disparo en: ${x} y ${y}`);
+
+    const casillaClickada = tablero.mapa.find(item => item.x === x && item.y === y);
+    let mensaje = '';
+    if (casillaClickada) {
+        switch (casillaClickada.estado) { 
+            case 'tocado':
+                mensaje = '¡Has ganado!';
+                break;
+            case 'humo':
+                mensaje = '¡Humo!';
+                break;
+            case 'agua':
+                mensaje = '¡Agua!';
+                break;
+            default:
+                mensaje = 'Disparo realizado.';
+        }
+    }
+    setMensaje(mensaje)
   };
-  console.log(tablero.mapa.length);
+
+
   return (
     <SafeAreaView>
       <View style={styles.contenedor}>
@@ -44,7 +62,7 @@ const GameScreen = () => {
           )}
           keyExtractor={item => item.id}
         />
-        <Text>{haGanado ? 'Has ganado' : 'Agua'}</Text>
+        <Text>{mensaje}</Text>
         <Text>
           Disparo en: {shoot?.x}, {shoot?.y}
         </Text>

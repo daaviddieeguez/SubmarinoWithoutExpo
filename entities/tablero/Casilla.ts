@@ -8,12 +8,14 @@ export class Casilla {
     public y: number;
     public valor: number;
     public vecinos: Casilla[] | null[];
+    public estado: 'sinPulsar' | 'agua' | 'tocado' | 'humo' = 'sinPulsar';
 
     constructor(x: number, y: number) {
         this.id = `${x.toString()}${y.toString()}`;
         this.x = x;
         this.y = y;
         this.valor = 0;
+        this.estado = 'sinPulsar';
         this.vecinos = [ null, null, null, null ];
     }
 

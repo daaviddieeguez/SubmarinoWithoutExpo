@@ -6,6 +6,7 @@ const ConfigScreen = () => {
   const size = useSize(state => state.size);
   const incSize = useSize(state => state.incSize);
   const decSize = useSize(state => state.decSize);
+
   return (
     <View style={styles.container}>
       <Text>Introduce el tamaño del tablero</Text>
@@ -14,7 +15,14 @@ const ConfigScreen = () => {
         <Button onPress={() => incSize()} title="Incrementar" />
       </View>
       <View style={styles.button}>
-        <Button onPress={() => decSize()} title="Decrementar" />
+        <Button
+          onPress={() => {
+            if (size > 2) {
+              decSize();
+            }
+          }}
+          title="Decrementar"
+        />
       </View>
     </View>
   );
