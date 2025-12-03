@@ -8,14 +8,13 @@ import ConfigScreen from './screens/ConfigScreen';
 
 const Tab = createBottomTabNavigator();
 
-
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-      <Tab.Screen name='Submarino' component={GameScreen} />
-      <Tab.Screen name='Config' component={ConfigScreen} />
-    </Tab.Navigator>
+        <Tab.Screen name="Submarino" component={GameScreen} />
+        <Tab.Screen name="Config" component={ConfigScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
